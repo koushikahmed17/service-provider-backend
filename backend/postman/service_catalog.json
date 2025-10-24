@@ -1,0 +1,465 @@
+{
+  "info": {
+    "name": "Service Catalog API",
+    "description": "API collection for service catalog management including categories, tags, professional services, and search functionality",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "professionalId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "serviceId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Public Endpoints",
+      "item": [
+        {
+          "name": "Get Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "categories"],
+              "query": [
+                {
+                  "key": "tree",
+                  "value": "true",
+                  "description": "Return categories in tree format"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/search?query=cleaning&lat=23.8103&lng=90.4125&radiusKm=10&minPrice=100&maxPrice=1000&rateType=HOURLY",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "search"],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "cleaning",
+                  "description": "Search query"
+                },
+                {
+                  "key": "lat",
+                  "value": "23.8103",
+                  "description": "Latitude for geo search"
+                },
+                {
+                  "key": "lng",
+                  "value": "90.4125",
+                  "description": "Longitude for geo search"
+                },
+                {
+                  "key": "radiusKm",
+                  "value": "10",
+                  "description": "Search radius in kilometers"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "100",
+                  "description": "Minimum price filter"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "1000",
+                  "description": "Maximum price filter"
+                },
+                {
+                  "key": "rateType",
+                  "value": "HOURLY",
+                  "description": "Rate type filter"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Search Suggestions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/suggestions?q=clean&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "suggestions"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "clean",
+                  "description": "Search query"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of suggestions"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Popular Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/popular?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "popular"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of categories"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Professional Endpoints",
+      "item": [
+        {
+          "name": "Create Professional Service",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"{{categoryId}}\",\n  \"rateType\": \"HOURLY\",\n  \"hourlyRateBDT\": 500,\n  \"minHours\": 2,\n  \"notes\": \"Professional service with warranty\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/catalog/pro/services",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "pro", "services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Professional Services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/pro/services",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "pro", "services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Professional Service",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rateType\": \"FIXED\",\n  \"fixedPriceBDT\": 2000,\n  \"notes\": \"Updated service description\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/catalog/pro/services/{{serviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "pro", "services", "{{serviceId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Professional Service",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/pro/services/{{serviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "pro", "services", "{{serviceId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Categories",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Service Category\",\n  \"slug\": \"new-service-category\",\n  \"description\": \"Description of the new service category\",\n  \"isActive\": true,\n  \"icon\": \"fa-solid fa-star\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Categories (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/categories?tree=true&includeInactive=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "categories"],
+              "query": [
+                {
+                  "key": "tree",
+                  "value": "true",
+                  "description": "Return in tree format"
+                },
+                {
+                  "key": "includeInactive",
+                  "value": "true",
+                  "description": "Include inactive categories"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "categories", "{{categoryId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Category Name\",\n  \"description\": \"Updated description\",\n  \"isActive\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "categories", "{{categoryId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "categories", "{{categoryId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Tags",
+      "item": [
+        {
+          "name": "Create Tag",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Premium Service\",\n  \"slug\": \"premium-service\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/tags",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "tags"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/tags",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "tags"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Tag by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/tags/{{tagId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "tags", "{{tagId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Tag",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Tag Name\",\n  \"slug\": \"updated-tag-slug\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/tags/{{tagId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "tags", "{{tagId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tag",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/catalog/tags/{{tagId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "catalog", "tags", "{{tagId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

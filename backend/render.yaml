@@ -1,0 +1,52 @@
+services:
+  # PostgreSQL Database
+  - type: pserv
+    name: service-provider-db
+    env: docker
+    plan: free
+    ipAllowList: []
+
+  # Backend Web Service
+  - type: web
+    name: service-provider-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npx prisma migrate deploy && npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: API_PREFIX
+        value: api/v1
+      - key: DATABASE_URL
+        fromDatabase:
+          name: service-provider-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CORS_ORIGIN
+        sync: false
+      - key: RATE_LIMIT_TTL
+        value: 60
+      - key: RATE_LIMIT_LIMIT
+        value: 100
+      - key: MAX_FILE_SIZE
+        value: 5242880
+      - key: UPLOAD_PATH
+        value: ./uploads
+      - key: BCRYPT_ROUNDS
+        value: 12
+      - key: LOG_LEVEL
+        value: info
+      - key: CSRF_SECRET
+        generateValue: true
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+
+
+
+

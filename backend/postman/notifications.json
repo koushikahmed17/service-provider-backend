@@ -1,0 +1,362 @@
+{
+  "info": {
+    "name": "Notifications API",
+    "description": "API collection for real-time notifications with WebSocket and SSE support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "wsUrl",
+      "value": "ws://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "customerToken",
+      "value": "your-customer-jwt-token",
+      "type": "string"
+    },
+    {
+      "key": "professionalToken",
+      "value": "your-professional-jwt-token",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "your-admin-jwt-token",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "SSE Connection",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customerToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "text/event-stream",
+            "type": "text"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/sse",
+          "host": ["{{baseUrl}}"],
+          "path": ["notifications", "sse"]
+        },
+        "description": "Connect to Server-Sent Events for real-time notifications. This will keep the connection open and stream events."
+      },
+      "response": []
+    },
+    {
+      "name": "SSE Test Connection",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "text/event-stream",
+            "type": "text"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/sse/test",
+          "host": ["{{baseUrl}}"],
+          "path": ["notifications", "sse", "test"]
+        },
+        "description": "Test SSE connection without authentication. Sends test messages every 5 seconds for 30 seconds."
+      },
+      "response": []
+    },
+    {
+      "name": "WebSocket Connection Instructions",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/docs",
+          "host": ["{{baseUrl}}"],
+          "path": ["docs"]
+        },
+        "description": "## WebSocket Connection Instructions\n\n### Using wscat (Command Line)\n```bash\n# Install wscat globally\nnpm install -g wscat\n\n# Connect with JWT token\nwscat -c \"{{wsUrl}}/ws/notifications?token={{customerToken}}\"\n\n# Or with Authorization header\nwscat -c \"{{wsUrl}}/ws/notifications\" -H \"Authorization: Bearer {{customerToken}}\"\n```\n\n### Using JavaScript (Browser)\n```javascript\nimport io from 'socket.io-client';\n\nconst socket = io('{{wsUrl}}/ws/notifications', {\n  auth: {\n    token: '{{customerToken}}'\n  },\n  // or\n  query: {\n    token: '{{customerToken}}'\n  }\n});\n\nsocket.on('connect', () => {\n  console.log('Connected to notification service');\n});\n\nsocket.on('booking.created', (data) => {\n  console.log('New booking:', data);\n});\n\nsocket.on('review.created', (data) => {\n  console.log('New review:', data);\n});\n\nsocket.on('nearby-job', (data) => {\n  console.log('Nearby job:', data);\n});\n\n// Send ping to keep connection alive\nsocket.emit('ping');\n\n// Join specific room\nsocket.emit('joinRoom', { room: 'user:user-123' });\n\n// Get presence stats\nsocket.emit('getPresence');\n```\n\n### WebSocket Events\n\n#### Client → Server Events\n- `ping` - Keep connection alive\n- `joinRoom` - Join a specific room\n- `leaveRoom` - Leave a room\n- `getPresence` - Get online user statistics\n- `markNotificationRead` - Mark notification as read\n\n#### Server → Client Events\n- `connected` - Connection established\n- `pong` - Response to ping\n- `joinedRoom` - Successfully joined room\n- `leftRoom` - Successfully left room\n- `presenceStats` - Online user statistics\n- `notificationRead` - Notification marked as read\n- `error` - Error message\n- `heartbeat` - Keep-alive message\n\n#### Notification Events\n- `booking.created` - New booking request\n- `booking.accepted` - Booking accepted by professional\n- `booking.reminder` - Booking reminder\n- `booking.completed` - Booking completed\n- `review.created` - New review received\n- `nearby-job` - Nearby job available\n- `system.maintenance` - System maintenance notification"
+      },
+      "response": []
+    },
+    {
+      "name": "Test Booking Created Notification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customerToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"professionalId\": \"professional-123\",\n  \"categoryId\": \"plumbing\",\n  \"scheduledAt\": \"2024-01-20T10:00:00Z\",\n  \"addressText\": \"123 Test Street, Dhaka\",\n  \"lat\": 23.8103,\n  \"lng\": 90.4125,\n  \"details\": \"Kitchen sink repair needed\",\n  \"pricingModel\": \"HOURLY\",\n  \"quotedPriceBDT\": 2000.0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/bookings",
+          "host": ["{{baseUrl}}"],
+          "path": ["bookings"]
+        },
+        "description": "Create a booking to trigger a 'booking.created' notification to the professional. Make sure the professional is connected via WebSocket or SSE to receive the notification."
+      },
+      "response": []
+    },
+    {
+      "name": "Test Review Created Notification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customerToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"bookingId\": \"booking-123\",\n  \"rating\": 5,\n  \"comment\": \"Excellent service! Very professional and punctual.\",\n  \"photos\": [\"https://example.com/photo1.jpg\"]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/reviews",
+          "host": ["{{baseUrl}}"],
+          "path": ["reviews"]
+        },
+        "description": "Create a review to trigger a 'review.created' notification to the professional. Make sure the professional is connected via WebSocket or SSE to receive the notification."
+      },
+      "response": []
+    },
+    {
+      "name": "Accept Booking (Trigger Notification)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{professionalToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/bookings/booking-123/accept",
+          "host": ["{{baseUrl}}"],
+          "path": ["bookings", "booking-123", "accept"]
+        },
+        "description": "Accept a booking to trigger a 'booking.accepted' notification to the customer. Make sure the customer is connected via WebSocket or SSE to receive the notification."
+      },
+      "response": []
+    },
+    {
+      "name": "Complete Booking (Trigger Notification)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{professionalToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/bookings/booking-123/complete",
+          "host": ["{{baseUrl}}"],
+          "path": ["bookings", "booking-123", "complete"]
+        },
+        "description": "Complete a booking to trigger a 'booking.completed' notification to the customer. Make sure the customer is connected via WebSocket or SSE to receive the notification."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Notification Logs (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/admin/notifications/logs?page=1&limit=20&event=booking.created",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "notifications", "logs"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "event",
+              "value": "booking.created"
+            }
+          ]
+        },
+        "description": "Get notification logs for admin monitoring. Filter by event type, user, delivery status, etc."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Notification Statistics (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/admin/notifications/stats",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "notifications", "stats"]
+        },
+        "description": "Get notification statistics including delivery rates, event breakdown, and daily trends."
+      },
+      "response": []
+    },
+    {
+      "name": "Test Notification (Dev)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": \"user-123\",\n  \"event\": \"test.notification\",\n  \"message\": \"This is a test notification\",\n  \"data\": {\n    \"test\": true,\n    \"timestamp\": \"2024-01-15T10:00:00Z\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/dev/notifications/test",
+          "host": ["{{baseUrl}}"],
+          "path": ["dev", "notifications", "test"]
+        },
+        "description": "Send a test notification to a specific user. Useful for testing the notification system."
+      },
+      "response": []
+    },
+    {
+      "name": "Broadcast System Message (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event\": \"system.announcement\",\n  \"message\": \"Scheduled maintenance will occur tonight from 2 AM to 4 AM\",\n  \"data\": {\n    \"maintenanceWindow\": {\n      \"start\": \"2024-01-16T02:00:00Z\",\n      \"end\": \"2024-01-16T04:00:00Z\"\n    }\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/notifications/broadcast",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "notifications", "broadcast"]
+        },
+        "description": "Broadcast a system-wide message to all connected users."
+      },
+      "response": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,757 @@
+{
+  "info": {
+    "name": "Admin API",
+    "description": "Admin module endpoints for user management, disputes, commission settings, content moderation, and analytics",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{admin_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/users?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "role",
+                  "value": "PROFESSIONAL",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Role",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"PROFESSIONAL\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/users/:userId/role",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "users", ":userId", "role"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "user-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ban User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/users/:userId/ban",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "users", ":userId", "ban"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "user-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unban User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/users/:userId/unban",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "users", ":userId", "unban"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "user-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/stats",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "stats"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Professional Management",
+      "item": [
+        {
+          "name": "Approve Professional",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/professionals/:professionalId/approve",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "professionals", ":professionalId", "approve"],
+              "variable": [
+                {
+                  "key": "professionalId",
+                  "value": "professional-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Professional",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/professionals/:professionalId/reject",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "professionals", ":professionalId", "reject"],
+              "variable": [
+                {
+                  "key": "professionalId",
+                  "value": "professional-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dispute Management",
+      "item": [
+        {
+          "name": "Get All Disputes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/disputes?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "disputes"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "PAYMENT",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resolve Dispute",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resolution\": \"Dispute resolved in favor of customer. Full refund processed.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/disputes/:disputeId/resolve",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "disputes", ":disputeId", "resolve"],
+              "variable": [
+                {
+                  "key": "disputeId",
+                  "value": "dispute-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Commission Settings",
+      "item": [
+        {
+          "name": "Get Commission Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/config/commission?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "config", "commission"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Global Commission",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"percent\": 15.5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/config/commission",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "config", "commission"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category Commission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"category-id-here\",\n  \"percent\": 12.0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/config/commission",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "config", "commission"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Content Moderation",
+      "item": [
+        {
+          "name": "Get Flagged Reviews",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/moderation/reviews/flagged?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "moderation", "reviews", "flagged"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Moderate Review - Approve",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"APPROVED\",\n  \"reason\": \"Review content is appropriate and follows community guidelines\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/moderation/reviews/:reviewId/moderate",
+              "host": ["{{base_url}}"],
+              "path": [
+                "admin",
+                "moderation",
+                "reviews",
+                ":reviewId",
+                "moderate"
+              ],
+              "variable": [
+                {
+                  "key": "reviewId",
+                  "value": "review-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Moderate Review - Reject",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"REJECTED\",\n  \"reason\": \"Review contains inappropriate language and violates community guidelines\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/moderation/reviews/:reviewId/moderate",
+              "host": ["{{base_url}}"],
+              "path": [
+                "admin",
+                "moderation",
+                "reviews",
+                ":reviewId",
+                "moderate"
+              ],
+              "variable": [
+                {
+                  "key": "reviewId",
+                  "value": "review-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Moderate Review - Hide",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"HIDDEN\",\n  \"reason\": \"Review is temporarily hidden pending further investigation\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/moderation/reviews/:reviewId/moderate",
+              "host": ["{{base_url}}"],
+              "path": [
+                "admin",
+                "moderation",
+                "reviews",
+                ":reviewId",
+                "moderate"
+              ],
+              "variable": [
+                {
+                  "key": "reviewId",
+                  "value": "review-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Uploads for Moderation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/moderation/uploads?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "moderation", "uploads"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Moderate Upload - Approve",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"APPROVED\",\n  \"reason\": \"Upload content is appropriate and meets quality standards\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/moderation/uploads/:uploadId/moderate",
+              "host": ["{{base_url}}"],
+              "path": [
+                "admin",
+                "moderation",
+                "uploads",
+                ":uploadId",
+                "moderate"
+              ],
+              "variable": [
+                {
+                  "key": "uploadId",
+                  "value": "upload-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Moderate Upload - Reject",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"REJECTED\",\n  \"reason\": \"Upload contains inappropriate content and violates community guidelines\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/moderation/uploads/:uploadId/moderate",
+              "host": ["{{base_url}}"],
+              "path": [
+                "admin",
+                "moderation",
+                "uploads",
+                ":uploadId",
+                "moderate"
+              ],
+              "variable": [
+                {
+                  "key": "uploadId",
+                  "value": "upload-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Get Analytics Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/analytics/summary",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "analytics", "summary"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01T00:00:00Z",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31T23:59:59Z",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Analytics Summary - Date Range",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/analytics/summary?startDate=2024-01-01T00:00:00Z&endDate=2024-12-31T23:59:59Z",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "analytics", "summary"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01T00:00:00Z"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31T23:59:59Z"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

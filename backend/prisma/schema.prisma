@@ -1,0 +1,519 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id                          String                       @id @default(cuid())
+    email                       String                       @unique
+    phone                       String?                      @unique
+    password                    String?
+    fullName                    String
+    nidNumber                   String?                      @unique
+    nidPhotoUrl                 String?
+    nidImageFront               String?
+    nidImageBack                String?
+    avatarUrl                   String?
+    address                     String?
+    gender                      String?
+    dateOfBirth                 DateTime?
+    locationLat                 Float?
+    locationLng                 Float?
+    preferredLanguages          String[]                     @default(["en"])
+    isActive                    Boolean                      @default(true)
+    isEmailVerified             Boolean                      @default(false)
+    isPhoneVerified             Boolean                      @default(false)
+    isNidVerified               Boolean                      @default(false)
+    createdAt                   DateTime                     @default(now())
+    updatedAt                   DateTime                     @updatedAt
+    auditLogs                   AuditLog[]
+    customerBookings            Booking[]                    @relation("CustomerBookings")
+    professionalBookings        Booking[]                    @relation("ProfessionalBookings")
+    otps                        OTP[]
+    payouts                     Payout[]
+    professionalSettlements     BookingSettlement[]          @relation("ProfessionalSettlements")
+    professionalProfile         ProfessionalProfile?
+    ratingAggregate             ProfessionalRatingAggregate?
+    adminModerationLogs         ReviewModerationLog[]        @relation("AdminModerationLogs")
+    professionalReviewResponses ReviewResponse[]             @relation("ProfessionalReviewResponses")
+    customerReviews             Review[]                     @relation("CustomerReviews")
+    professionalReviews         Review[]                     @relation("ProfessionalReviews")
+    sessions                    Session[]
+    roles                       UserRole[]
+    disputesRaised              Dispute[]                    @relation("DisputeRaisedBy")
+    disputesResolved            Dispute[]                    @relation("DisputeResolvedBy")
+
+    @@map("users")
+}
+
+model Role {
+    id                 String               @id @default(cuid())
+    name               String               @unique
+    description        String?
+    createdAt          DateTime             @default(now())
+    updatedAt          DateTime             @updatedAt
+    permissions        RolePermission[]
+    users              UserRole[]
+    AnalyticsDashboard AnalyticsDashboard[]
+
+    @@map("roles")
+}
+
+model Permission {
+    id          String           @id @default(cuid())
+    name        String           @unique
+    description String?
+    resource    String
+    action      String
+    createdAt   DateTime         @default(now())
+    updatedAt   DateTime         @updatedAt
+    roles       RolePermission[]
+
+    @@map("permissions")
+}
+
+model UserRole {
+    id     String @id @default(cuid())
+    userId String
+    roleId String
+    role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, roleId])
+    @@map("user_roles")
+}
+
+model RolePermission {
+    id           String     @id @default(cuid())
+    roleId       String
+    permissionId String
+    permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+    role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+    @@unique([roleId, permissionId])
+    @@map("role_permissions")
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    userId       String
+    token        String   @unique
+    refreshToken String   @unique
+    deviceInfo   String?
+    ipAddress    String?
+    userAgent    String?
+    expiresAt    DateTime
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("sessions")
+}
+
+model OTP {
+    id         String   @id @default(cuid())
+    userId     String?
+    code       String
+    type       String
+    identifier String
+    expiresAt  DateTime
+    isUsed     Boolean  @default(false)
+    attempts   Int      @default(0)
+    createdAt  DateTime @default(now())
+    user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("otps")
+}
+
+model ProfessionalProfile {
+    id                   String                @id @default(cuid())
+    userId               String                @unique
+    skills               String[]
+    categories           String[]
+    hourlyRateBDT        Decimal?              @db.Decimal(10, 2)
+    fixedRates           Json?
+    availability         Json?
+    bio                  String?
+    experience           String?
+    education            String?
+    certifications       String[]
+    portfolioUrl         String?
+    linkedinUrl          String?
+    serviceArea          String?
+    status               String                @default("PENDING")
+    isVerified           Boolean               @default(false)
+    adminNotes           String?
+    locationLat          Float?
+    locationLng          Float?
+    accountBalanceBDT    Decimal               @default(0) @db.Decimal(10, 2)
+    createdAt            DateTime              @default(now())
+    updatedAt            DateTime              @updatedAt
+    user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+    professionalServices ProfessionalService[]
+
+    @@map("professional_profiles")
+}
+
+model AuditLog {
+    id         String   @id @default(cuid())
+    userId     String?
+    action     String
+    resource   String
+    resourceId String?
+    details    Json?
+    ipAddress  String?
+    userAgent  String?
+    requestId  String?
+    createdAt  DateTime @default(now())
+    user       User?    @relation(fields: [userId], references: [id])
+
+    @@map("audit_logs")
+}
+
+model Booking {
+    id                String             @id @default(cuid())
+    customerId        String
+    professionalId    String
+    categoryId        String
+    status            String
+    scheduledAt       DateTime
+    addressText       String
+    lat               Float?
+    lng               Float?
+    details           String?
+    pricingModel      String
+    quotedPriceBDT    Decimal            @db.Decimal(10, 2)
+    commissionPercent Decimal            @default(15.00) @db.Decimal(5, 2)
+    checkInAt         DateTime?
+    checkOutAt        DateTime?
+    actualHours       Decimal?           @db.Decimal(5, 2)
+    finalAmountBDT    Decimal?           @db.Decimal(10, 2)
+    cancelReason      String?
+    createdAt         DateTime           @default(now())
+    updatedAt         DateTime           @updatedAt
+    events            BookingEvent[]
+    category          ServiceCategory    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    customer          User               @relation("CustomerBookings", fields: [customerId], references: [id], onDelete: Cascade)
+    professional      User               @relation("ProfessionalBookings", fields: [professionalId], references: [id], onDelete: Cascade)
+    payments          Payment[]
+    reviews           Review[]
+    disputes          Dispute[]
+    settlement        BookingSettlement?
+    refunds           Refund[]
+
+    @@map("bookings")
+}
+
+model BookingEvent {
+    id        String   @id @default(cuid())
+    bookingId String
+    type      String
+    metadata  Json?
+    at        DateTime @default(now())
+    booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+    @@map("booking_events")
+}
+
+model Payment {
+    id         String   @id @default(cuid())
+    bookingId  String
+    amountBDT  Decimal  @db.Decimal(10, 2)
+    currency   String   @default("BDT")
+    status     String
+    method     String
+    gatewayRef String?
+    metadata   Json?
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+    refunds    Refund[]
+
+    @@map("payments")
+}
+
+model Refund {
+    id           String    @id @default(cuid())
+    bookingId    String
+    paymentId    String
+    amountBDT    Decimal   @db.Decimal(10, 2)
+    reason       String
+    status       String    @default("PENDING") // PENDING, PROCESSING, COMPLETED, FAILED
+    refundMethod String? // BANK_TRANSFER, MOBILE_BANKING, GATEWAY_REVERSAL
+    gatewayRef   String?
+    processedBy  String? // Admin user ID who processed the refund
+    processedAt  DateTime?
+    notes        String?
+    metadata     Json?
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+    booking      Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+    payment      Payment   @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+    @@map("refunds")
+}
+
+model Payout {
+    id             String   @id @default(cuid())
+    professionalId String
+    periodStart    DateTime
+    periodEnd      DateTime
+    amountBDT      Decimal  @db.Decimal(10, 2)
+    status         String   @default("DUE") // DUE, PAID, FAILED
+    meta           Json?
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    professional   User     @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+    @@map("payouts")
+}
+
+model DailySettlement {
+    id              String              @id @default(cuid())
+    date            DateTime            @db.Date
+    totalBookings   Int                 @default(0)
+    totalAmount     Decimal             @default(0) @db.Decimal(10, 2)
+    totalCommission Decimal             @default(0) @db.Decimal(10, 2)
+    totalPayouts    Decimal             @default(0) @db.Decimal(10, 2)
+    status          String              @default("PENDING") // PENDING, PROCESSED
+    processedAt     DateTime?
+    createdAt       DateTime            @default(now())
+    updatedAt       DateTime            @updatedAt
+    bookings        BookingSettlement[]
+
+    @@unique([date])
+    @@map("daily_settlements")
+}
+
+model BookingSettlement {
+    id                 String          @id @default(cuid())
+    bookingId          String          @unique
+    dailySettlementId  String
+    professionalId     String
+    commissionAmount   Decimal         @db.Decimal(10, 2)
+    professionalAmount Decimal         @db.Decimal(10, 2)
+    status             String          @default("DUE") // DUE, PAID
+    paidAt             DateTime?
+    createdAt          DateTime        @default(now())
+    updatedAt          DateTime        @updatedAt
+    booking            Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+    dailySettlement    DailySettlement @relation(fields: [dailySettlementId], references: [id], onDelete: Cascade)
+    professional       User            @relation("ProfessionalSettlements", fields: [professionalId], references: [id], onDelete: Cascade)
+
+    @@map("booking_settlements")
+}
+
+model CommissionSetting {
+    id         String           @id @default(cuid())
+    categoryId String?
+    percent    Decimal          @db.Decimal(5, 2)
+    createdAt  DateTime         @default(now())
+    updatedAt  DateTime         @updatedAt
+    category   ServiceCategory? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+    @@map("commission_settings")
+}
+
+model ServiceCategory {
+    id                   String                @id @default(cuid())
+    name                 String
+    slug                 String                @unique
+    description          String?
+    isActive             Boolean               @default(true)
+    icon                 String?
+    parentId             String?
+    createdAt            DateTime              @default(now())
+    updatedAt            DateTime              @updatedAt
+    bookings             Booking[]
+    commissionSettings   CommissionSetting[]
+    professionalServices ProfessionalService[]
+    parent               ServiceCategory?      @relation("CategoryHierarchy", fields: [parentId], references: [id])
+    children             ServiceCategory[]     @relation("CategoryHierarchy")
+
+    @@map("service_categories")
+}
+
+model ServiceTag {
+    id        String   @id @default(cuid())
+    name      String
+    slug      String   @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("service_tags")
+}
+
+model ProfessionalService {
+    id             String              @id @default(cuid())
+    professionalId String
+    categoryId     String
+    rateType       String
+    hourlyRateBDT  Decimal?            @db.Decimal(10, 2)
+    fixedPriceBDT  Decimal?            @db.Decimal(10, 2)
+    minHours       Int?
+    notes          String?
+    isActive       Boolean             @default(true)
+    createdAt      DateTime            @default(now())
+    updatedAt      DateTime            @updatedAt
+    category       ServiceCategory     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    professional   ProfessionalProfile @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+    @@unique([professionalId, categoryId])
+    @@map("professional_services")
+}
+
+model Review {
+    id             String                @id @default(cuid())
+    bookingId      String
+    customerId     String
+    professionalId String
+    rating         Int
+    comment        String?
+    photos         String[]
+    flagged        Boolean               @default(false)
+    createdAt      DateTime              @default(now())
+    updatedAt      DateTime              @updatedAt
+    moderationLog  ReviewModerationLog[]
+    response       ReviewResponse?
+    booking        Booking               @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+    customer       User                  @relation("CustomerReviews", fields: [customerId], references: [id], onDelete: Cascade)
+    professional   User                  @relation("ProfessionalReviews", fields: [professionalId], references: [id], onDelete: Cascade)
+
+    @@unique([bookingId, customerId])
+    @@map("reviews")
+}
+
+model ReviewResponse {
+    id             String   @id @default(cuid())
+    reviewId       String   @unique
+    professionalId String
+    comment        String
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    professional   User     @relation("ProfessionalReviewResponses", fields: [professionalId], references: [id], onDelete: Cascade)
+    review         Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+    @@map("review_responses")
+}
+
+model ProfessionalRatingAggregate {
+    id             String   @id @default(cuid())
+    professionalId String   @unique
+    avgRating      Decimal  @db.Decimal(3, 2)
+    totalReviews   Int      @default(0)
+    weightedScore  Decimal  @db.Decimal(3, 2)
+    lastCalculated DateTime @default(now())
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    professional   User     @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+    @@map("professional_rating_aggregates")
+}
+
+model ReviewModerationLog {
+    id        String   @id @default(cuid())
+    reviewId  String
+    adminId   String
+    action    String
+    reason    String?
+    createdAt DateTime @default(now())
+    admin     User     @relation("AdminModerationLogs", fields: [adminId], references: [id], onDelete: Cascade)
+    review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+    @@map("review_moderation_logs")
+}
+
+model NotificationLog {
+    id          String    @id @default(cuid())
+    userId      String
+    event       String
+    payload     String
+    delivered   Boolean   @default(false)
+    deliveredAt DateTime?
+    error       String?
+    createdAt   DateTime  @default(now())
+
+    @@map("notification_logs")
+}
+
+model Dispute {
+    id             String    @id @default(cuid())
+    bookingId      String
+    raisedBy       String
+    type           String
+    details        String
+    status         String    @default("PENDING")
+    resolution     String?
+    resolvedBy     String?
+    resolvedAt     DateTime?
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+    booking        Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+    raisedByUser   User      @relation("DisputeRaisedBy", fields: [raisedBy], references: [id], onDelete: Cascade)
+    resolvedByUser User?     @relation("DisputeResolvedBy", fields: [resolvedBy], references: [id], onDelete: SetNull)
+
+    @@map("disputes")
+}
+
+// Dynamic Analytics Configuration Models
+model AnalyticsDashboard {
+    id          String            @id @default(cuid())
+    name        String
+    slug        String            @unique
+    roleId      String?
+    description String?
+    isActive    Boolean           @default(true)
+    layout      Json? // Stores grid layout configuration
+    config      Json? // Additional dashboard settings
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    role        Role?             @relation(fields: [roleId], references: [id], onDelete: Cascade)
+    widgets     AnalyticsWidget[]
+
+    @@map("analytics_dashboards")
+}
+
+model AnalyticsWidget {
+    id            String             @id @default(cuid())
+    dashboardId   String
+    metricId      String?
+    name          String
+    type          String // 'kpi', 'chart', 'table', 'map', 'list'
+    position      Json // { x, y, w, h } grid position
+    config        Json? // Widget-specific configuration
+    visualization Json? // Chart type, colors, etc.
+    isActive      Boolean            @default(true)
+    createdAt     DateTime           @default(now())
+    updatedAt     DateTime           @updatedAt
+    dashboard     AnalyticsDashboard @relation(fields: [dashboardId], references: [id], onDelete: Cascade)
+    metric        AnalyticsMetric?   @relation(fields: [metricId], references: [id], onDelete: SetNull)
+
+    @@map("analytics_widgets")
+}
+
+model AnalyticsMetric {
+    id          String            @id @default(cuid())
+    name        String
+    slug        String            @unique
+    description String?
+    category    String // 'revenue', 'bookings', 'users', 'ratings', etc.
+    dataSource  String // Table or view name
+    aggregation String // 'sum', 'count', 'avg', 'max', 'min'
+    field       String? // Field to aggregate
+    filters     Json? // Default filters to apply
+    groupBy     String? // Field to group by
+    calculation Json? // Custom calculation formula
+    format      String? // 'currency', 'number', 'percentage', 'decimal'
+    icon        String?
+    color       String?
+    isActive    Boolean           @default(true)
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    widgets     AnalyticsWidget[]
+
+    @@map("analytics_metrics")
+}

@@ -1,0 +1,593 @@
+{
+  "info": {
+    "name": "Payment API",
+    "description": "Payment module API endpoints for service provider platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "customerToken",
+      "value": "{{customer_access_token}}",
+      "type": "string"
+    },
+    {
+      "key": "professionalToken",
+      "value": "{{professional_access_token}}",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "{{admin_access_token}}",
+      "type": "string"
+    },
+    {
+      "key": "bookingId",
+      "value": "{{booking_id}}",
+      "type": "string"
+    },
+    {
+      "key": "paymentId",
+      "value": "{{payment_id}}",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Payment Intent",
+      "item": [
+        {
+          "name": "Create Payment Intent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"method\": \"CARD\",\n  \"metadata\": {\n    \"customerNote\": \"Payment for home cleaning service\",\n    \"preferredTime\": \"morning\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/intent",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "intent"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Payment Intent - Bank Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"method\": \"BANK_TRANSFER\",\n  \"metadata\": {\n    \"customerNote\": \"Bank transfer payment\",\n    \"bankAccount\": \"1234567890\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/intent",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "intent"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment Capture",
+      "item": [
+        {
+          "name": "Capture Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 2000.0,\n  \"metadata\": {\n    \"notes\": \"Service completed successfully\",\n    \"completionTime\": \"2024-01-15T14:30:00Z\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/{{paymentId}}/capture",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "{{paymentId}}", "capture"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Capture Payment - Partial Amount",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1500.0,\n  \"metadata\": {\n    \"notes\": \"Partial capture due to service adjustment\",\n    \"adjustmentReason\": \"Reduced scope of work\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/{{paymentId}}/capture",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "{{paymentId}}", "capture"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment Refund",
+      "item": [
+        {
+          "name": "Refund Payment - Full Amount",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 2000.0,\n  \"reason\": \"Customer requested full refund\",\n  \"metadata\": {\n    \"adminNote\": \"Refund processed due to service cancellation\",\n    \"refundType\": \"full\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/{{paymentId}}/refund",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "{{paymentId}}", "refund"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refund Payment - Partial Amount",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 500.0,\n  \"reason\": \"Customer requested partial refund\",\n  \"metadata\": {\n    \"adminNote\": \"Partial refund due to service quality issue\",\n    \"refundType\": \"partial\",\n    \"qualityIssue\": \"Service did not meet expectations\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/{{paymentId}}/refund",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "{{paymentId}}", "refund"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment Details",
+      "item": [
+        {
+          "name": "Get Payment by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payments/{{paymentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "{{paymentId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment Webhook",
+      "item": [
+        {
+          "name": "Payment Webhook - Captured",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-webhook-signature",
+                "value": "valid-signature",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventType\": \"payment.captured\",\n  \"paymentId\": \"gateway-ref-123\",\n  \"status\": \"CAPTURED\",\n  \"amount\": 2000.0,\n  \"currency\": \"BDT\",\n  \"timestamp\": \"2024-01-15T14:30:00Z\",\n  \"metadata\": {\n    \"gatewayTransactionId\": \"txn_123456789\",\n    \"processingFee\": 50.0\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/webhook",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "webhook"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Payment Webhook - Refunded",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-webhook-signature",
+                "value": "valid-signature",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventType\": \"payment.refunded\",\n  \"paymentId\": \"gateway-ref-123\",\n  \"status\": \"REFUNDED\",\n  \"amount\": 1000.0,\n  \"currency\": \"BDT\",\n  \"timestamp\": \"2024-01-15T15:00:00Z\",\n  \"metadata\": {\n    \"refundId\": \"refund_123456789\",\n    \"reason\": \"Customer requested refund\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/webhook",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "webhook"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payout Management",
+      "item": [
+        {
+          "name": "Get My Payouts (Professional)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payouts/my?status=PENDING&limit=10&offset=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["payouts", "my"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "PENDING"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payout by ID (Professional)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payouts/{{payoutId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["payouts", "{{payoutId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Payouts (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/payouts?status=PENDING&professionalId={{professionalId}}&limit=20&offset=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "payouts"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "PENDING"
+                },
+                {
+                  "key": "professionalId",
+                  "value": "{{professionalId}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Run Payouts (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"periodStart\": \"2024-01-01T00:00:00Z\",\n  \"periodEnd\": \"2024-01-31T23:59:59Z\",\n  \"metadata\": {\n    \"adminNote\": \"Monthly payout for January 2024\",\n    \"payoutType\": \"monthly\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/payouts/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "payouts", "run"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Commission Settings",
+      "item": [
+        {
+          "name": "Create Commission Setting",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"{{categoryId}}\",\n  \"percent\": 20.0,\n  \"metadata\": {\n    \"adminNote\": \"Higher commission for premium services\",\n    \"effectiveFrom\": \"2024-01-01\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/commissions",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "commissions"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Commission Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/commissions?categoryId={{categoryId}}&limit=20&offset=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "commissions"],
+              "query": [
+                {
+                  "key": "categoryId",
+                  "value": "{{categoryId}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Commission Setting by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/commissions/{{commissionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "commissions", "{{commissionId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Commission Setting",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"percent\": 25.0,\n  \"metadata\": {\n    \"adminNote\": \"Updated commission rate\",\n    \"updatedBy\": \"admin@example.com\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/commissions/{{commissionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "commissions", "{{commissionId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Commission Setting",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/commissions/{{commissionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "commissions", "{{commissionId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

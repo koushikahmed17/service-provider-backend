@@ -1,0 +1,428 @@
+{
+  "info": {
+    "name": "Reviews API",
+    "description": "API collection for review management endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "customerToken",
+      "value": "your-customer-jwt-token",
+      "type": "string"
+    },
+    {
+      "key": "professionalToken",
+      "value": "your-professional-jwt-token",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "your-admin-jwt-token",
+      "type": "string"
+    },
+    {
+      "key": "reviewId",
+      "value": "review-id-here",
+      "type": "string"
+    },
+    {
+      "key": "professionalId",
+      "value": "professional-id-here",
+      "type": "string"
+    },
+    {
+      "key": "bookingId",
+      "value": "booking-id-here",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Review",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customerToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"rating\": 5,\n  \"comment\": \"Excellent service! Very professional and punctual.\",\n  \"photos\": [\n    \"https://example.com/photo1.jpg\",\n    \"https://example.com/photo2.jpg\"\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/reviews",
+          "host": ["{{baseUrl}}"],
+          "path": ["reviews"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Reviews by Professional",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customerToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/professionals/{{professionalId}}?page=1&limit=10&minRating=4&maxRating=5",
+          "host": ["{{baseUrl}}"],
+          "path": ["reviews", "professionals", "{{professionalId}}"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            },
+            {
+              "key": "minRating",
+              "value": "4"
+            },
+            {
+              "key": "maxRating",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Review by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customerToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{reviewId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["reviews", "{{reviewId}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Review Response",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{professionalToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"comment\": \"Thank you for your feedback! I'm glad you were satisfied with the service.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{reviewId}}/respond",
+          "host": ["{{baseUrl}}"],
+          "path": ["reviews", "{{reviewId}}", "respond"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Review Response",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{professionalToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"comment\": \"Thank you for your detailed feedback! I appreciate your kind words.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{reviewId}}/respond",
+          "host": ["{{baseUrl}}"],
+          "path": ["reviews", "{{reviewId}}", "respond"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Flag Review",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customerToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reason\": \"Inappropriate language\",\n  \"details\": \"The review contains offensive content and false claims about the service.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{reviewId}}/flag",
+          "host": ["{{baseUrl}}"],
+          "path": ["reviews", "{{reviewId}}", "flag"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Professional Rating",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{customerToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/professionals/{{professionalId}}/rating",
+          "host": ["{{baseUrl}}"],
+          "path": ["reviews", "professionals", "{{professionalId}}", "rating"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Get All Reviews",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/admin/reviews?page=1&limit=20&flagged=false",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "reviews"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "flagged",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Get Flagged Reviews",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/admin/reviews/flagged?page=1&limit=20",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "reviews", "flagged"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Get Review by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/admin/reviews/{{reviewId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "reviews", "{{reviewId}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Moderate Review (Approve)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"approve\",\n  \"reason\": \"Review approved after verification\",\n  \"notes\": \"Customer provided valid documentation supporting their claims.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/reviews/{{reviewId}}/moderate",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "reviews", "{{reviewId}}", "moderate"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Moderate Review (Reject)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"reject\",\n  \"reason\": \"Review violates community guidelines\",\n  \"notes\": \"Contains inappropriate language and false claims.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/reviews/{{reviewId}}/moderate",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "reviews", "{{reviewId}}", "moderate"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Admin - Moderate Review (Edit)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"edit\",\n  \"reason\": \"Minor content adjustment needed\",\n  \"notes\": \"Removed inappropriate language while preserving the core feedback.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/reviews/{{reviewId}}/moderate",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "reviews", "{{reviewId}}", "moderate"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

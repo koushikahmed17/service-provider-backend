@@ -1,0 +1,711 @@
+{
+  "info": {
+    "name": "Analytics API",
+    "description": "Analytics module endpoints for professional, customer, and admin analytics with export functionality",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Professional Analytics",
+      "item": [
+        {
+          "name": "Get Professional Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/pro/me",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "pro", "me"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH",
+                  "disabled": true
+                },
+                {
+                  "key": "periods",
+                  "value": "12",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31",
+                  "disabled": true
+                },
+                {
+                  "key": "categoryId",
+                  "value": "category-id-here",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Professional Analytics - Last 6 Months",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/pro/me?period=MONTH&periods=6",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "pro", "me"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH"
+                },
+                {
+                  "key": "periods",
+                  "value": "6"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Professional Analytics - Date Range",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/pro/me?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "pro", "me"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Professional Analytics - By Category",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/pro/me?categoryId=category-id-here",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "pro", "me"],
+              "query": [
+                {
+                  "key": "categoryId",
+                  "value": "category-id-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Customer Analytics",
+      "item": [
+        {
+          "name": "Get Customer Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/cu/me",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "cu", "me"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH",
+                  "disabled": true
+                },
+                {
+                  "key": "periods",
+                  "value": "12",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31",
+                  "disabled": true
+                },
+                {
+                  "key": "categoryId",
+                  "value": "category-id-here",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer Analytics - Last 3 Months",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/cu/me?period=MONTH&periods=3",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "cu", "me"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH"
+                },
+                {
+                  "key": "periods",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer Analytics - Weekly",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/cu/me?period=WEEK&periods=8",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "cu", "me"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "WEEK"
+                },
+                {
+                  "key": "periods",
+                  "value": "8"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Analytics",
+      "item": [
+        {
+          "name": "Get Admin Analytics Overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/ad/overview",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "ad", "overview"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH",
+                  "disabled": true
+                },
+                {
+                  "key": "periods",
+                  "value": "12",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31",
+                  "disabled": true
+                },
+                {
+                  "key": "region",
+                  "value": "Dhaka",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Admin Analytics - Last Quarter",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/ad/overview?period=QUARTER&periods=1",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "ad", "overview"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "QUARTER"
+                },
+                {
+                  "key": "periods",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Admin Analytics - By Region",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/ad/overview?region=Dhaka",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "ad", "overview"],
+              "query": [
+                {
+                  "key": "region",
+                  "value": "Dhaka"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Admin Analytics - Yearly",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/ad/overview?period=YEAR&periods=2",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "ad", "overview"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "YEAR"
+                },
+                {
+                  "key": "periods",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Report Exports",
+      "item": [
+        {
+          "name": "Export Professional Analytics - CSV",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/reports/professional.csv",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "reports", "professional.csv"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Export Professional Analytics - PDF",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/reports/professional.pdf",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "reports", "professional.pdf"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Export Customer Analytics - CSV",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/reports/customer.csv",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "reports", "customer.csv"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Export Customer Analytics - PDF",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/reports/customer.pdf",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "reports", "customer.pdf"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Export Admin Analytics - CSV",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/reports/admin.csv",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "reports", "admin.csv"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Export Admin Analytics - PDF",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/reports/admin.pdf",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "reports", "admin.pdf"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "MONTH",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Export Professional Analytics - Date Range CSV",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/reports/professional.csv?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "reports", "professional.csv"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Export Admin Analytics - Quarterly PDF",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/analytics/reports/admin.pdf?period=QUARTER",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "reports", "admin.pdf"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "QUARTER"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

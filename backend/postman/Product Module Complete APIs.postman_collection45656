@@ -1,0 +1,1342 @@
+{
+	"info": {
+		"_postman_id": "1fbab27c-0489-410a-a712-834c5c8aa79e",
+		"name": "Product Module Complete APIs",
+		"description": "Complete Postman collection for Product Module APIs including Product, Overview, Features, Industry, Key Benefits, and Media sections",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47312970",
+		"_collection_link": "https://alexixshuvo17-9261508.postman.co/workspace/Shuvo's-Workspace~f8112951-5f28-4762-8ce0-8ca57fc73bf6/collection/47312970-1fbab27c-0489-410a-a712-834c5c8aa79e?action=share&source=collection_link&creator=47312970"
+	},
+	"item": [
+		{
+			"name": "Product Management",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoia291c2hpazEwMTUxN0BnbWFpbC5jb20iLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJpYXQiOjE3NTkyMTQ0MDgsImV4cCI6MTc2MTgwNjQwOH0.YFe8l0AbOEnGGYb6KaRmPl4dnsemd0i9QmcIPiwgigM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "slug",
+									"value": "KOUSHIK AHMED_SHUVO-OKhheeexx",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Clinic Management System",
+									"type": "text"
+								},
+								{
+									"key": "short_tagline",
+									"value": "Complete solution for modern clinics",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "A comprehensive clinic management system that streamlines operations, improves patient care, and enhances efficiency for healthcare providers.",
+									"type": "text"
+								},
+								{
+									"key": "hero_image",
+									"type": "file",
+									"src": "/C:/Users/koush/OneDrive/Pictures/133902854169648007.jpg",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "slug",
+									"value": "clinic-management-system-updated4444",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Clinic Management System Pro",
+									"type": "text"
+								},
+								{
+									"key": "short_tagline",
+									"value": "Advanced solution for modern clinicsbbb",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "An advanced clinic majhbhbnnagement system woooith enhanced features for better patient care and operational efficiency.345678\n",
+									"type": "text"
+								},
+								{
+									"key": "hero_image",
+									"type": "file",
+									"src": "/C:/Users/koush/OneDrive/Pictures/133871044599382436.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Overview Section",
+			"item": [
+				{
+					"name": "Create Overview",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Product Overview",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Comprehensive overview of our product",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/koush/OneDrive/Pictures/133871044599382436.jpg"
+								},
+								{
+									"key": "features",
+									"value": "[{\"title\":\"Feature 1\",\"description\":\"Description of feature 1\"},{\"title\":\"Feature 2\",\"description\":\"Description of feature 2\"}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/6/overview",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"6",
+								"overview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Overview",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/4/overview",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"4",
+								"overview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Overview",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Updated Product Overview",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Updated comprehensive overview of our product",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "features",
+									"value": "[{\"title\":\"Updated Feature 1\",\"description\":\"Updated description of feature 1\"},{\"title\":\"Updated Feature 2\",\"description\":\"Updated description of feature 2\"}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/1/overview",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"overview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Overview",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/overview",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"overview"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Features Section",
+			"item": [
+				{
+					"name": "Create Features",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sub_title\": \"Comprehensive feature set designed to meet all your business needs\",\n  \"features\": [\n    {\n      \"featureName\": \"Store management\",\n      \"items\": [\n        {\n          \"title\": \"Multi Vendor Support\",\n          \"description\": \"Complete inventory and store management solution\",\n          \"emoji\": \"🏪\"\n        },\n        {\n          \"title\": \"Customer Analytics\",\n          \"description\": \"Advanced analytics to understand customer behavior\",\n          \"emoji\": \"📊\"\n        }\n      ]\n    },\n    {\n      \"featureName\": \"Payment Processing\",\n      \"items\": [\n        {\n          \"title\": \"Secure Payments\",\n          \"description\": \"Multiple payment gateway integration\",\n          \"emoji\": \"💳\"\n        },\n        {\n          \"title\": \"Invoice Management\",\n          \"description\": \"Automated invoice generation and tracking\",\n          \"emoji\": \"📄\"\n        }\n      ]\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/1/features",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"features"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Features",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/features",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"features"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Feature by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/features/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"features",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Features",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sub_title\": \"Updated comprehensive feature set designed to meet all your business needs\",\n  \"features\": [\n    {\n      \"featureName\": \"Updated Store management\",\n      \"items\": [\n        {\n          \"title\": \"Updated Multi Vendor Support\",\n          \"description\": \"Updated complete inventory and store management solution\",\n          \"emoji\": \"🏪\"\n        },\n        {\n          \"title\": \"Updated Customer Analytics\",\n          \"description\": \"Updated advanced analytics to understand customer behavior\",\n          \"emoji\": \"📊\"\n        }\n      ]\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/1/features/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"features",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Industry Section",
+			"item": [
+				{
+					"name": "Create Industry Section",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \n  \"description\": \"We provide solutions across multiple industries to meet diverse business needs\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/7/industry-section",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"7",
+								"industry-section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Industry Section",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/industry-section",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"industry-section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Industry Section",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated Industries We Serve\",\n  \"description\": \"Updated: We provide solutions across multiple industries to meet diverse business needs\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/1/industry-section",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"industry-section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Industry Section",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/industry-section",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"industry-section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Industry Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Healthcare66",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Comprehensive healthcare management solutions for hospitals and clinics",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/koush/OneDrive/Pictures/133871044599382436.jpg"
+								},
+								{
+									"key": "emoji",
+									"value": "💳",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/7/industry-items/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"7",
+								"industry-items",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Industry Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/6/industry-items",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"6",
+								"industry-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Industry Item by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/industry-items/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"industry-items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Industry Item",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Updated Healthcarejn",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Updated comprehensive healthcare management solutions for hospitals and clinics",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"type": "file",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/6/industry-items/5/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"6",
+								"industry-items",
+								"5",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Industry Item",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/industry-items/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"industry-items",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Key Benefits Section",
+			"item": [
+				{
+					"name": "Create Key Benefits Section",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Measurable results that drive your business forward\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/7/key-benefits-section",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"7",
+								"key-benefits-section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Key Benefits Section",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/7/key-benefits-section",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"7",
+								"key-benefits-section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Key Benefits Section",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Updated measurable results that drive your business forward99\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/6/key-benefits-section",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"6",
+								"key-benefits-section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Key Benefits Section",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/key-benefits-section",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"key-benefits-section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Key Benefits Section with Items (Single API)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "description",
+									"value": "Measurable results that drive your business forwardwww",
+									"type": "text"
+								},
+								{
+									"key": "features",
+									"value": "[{\"title\":\"For Individuals\",\"description\":\"For individuals, our mortgage services pave the way to homeownership, and our flexible personal loans provide vital support during various life milestones.\"},{\"title\":\"For Businesses\",\"description\":\"For businesses, we offer comprehensive financial solutions to fuel growth and success.\"}]",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": "/C:/Users/koush/OneDrive/Pictures/133871044599382436.jpg"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": "/C:/Users/koush/OneDrive/Pictures/133871044599382436.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/7/key-benefits-section/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"7",
+								"key-benefits-section",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Key Benefit Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "For Individuals44",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "For individuals, our mortgage services pave the way to homeownership, and our flexible personal loans provide vital support during various life milestones.",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/koush/OneDrive/Pictures/133871044599382436.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/6/key-benefit-items/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"6",
+								"key-benefit-items",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Key Benefit Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/key-benefit-items",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"key-benefit-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Key Benefit Item by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/key-benefit-items/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"key-benefit-items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Key Benefit Item",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Updated For Individuals",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Updated: For individuals, our mortgage services pave the way to homeownership, and our flexible personal loans provide vital support during various life milestones.",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/7/key-benefit-items/4/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"7",
+								"key-benefit-items",
+								"4",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Key Benefit Item",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/4/key-benefit-items/7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"4",
+								"key-benefit-items",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Media Section",
+			"item": [
+				{
+					"name": "Create Media Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Product Demo Video",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Watch our product in action",
+									"type": "text"
+								},
+								{
+									"key": "media_type",
+									"value": "video",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/1/media/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"media",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Media Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/media",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"media"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Media Item by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/media/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"media",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Media Item",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Updated Product Demo Video",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Updated: Watch our product in action",
+									"type": "text"
+								},
+								{
+									"key": "media_type",
+									"value": "video",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/1/media/1/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"media",
+								"1",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Media Item",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/1/media/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"1",
+								"media",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000/admin/product-section",
+			"type": "string"
+		}
+	]
+}

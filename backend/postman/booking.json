@@ -1,0 +1,649 @@
+{
+  "info": {
+    "name": "Booking API",
+    "description": "Complete booking lifecycle management API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "customerToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "professionalToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "bookingId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Customer Bookings",
+      "item": [
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"professionalId\": \"professional-uuid-here\",\n  \"categoryId\": \"category-uuid-here\",\n  \"scheduledAt\": \"2024-02-01T10:00:00.000Z\",\n  \"addressText\": \"123 Main Street, Dhaka, Bangladesh\",\n  \"lat\": 23.8103,\n  \"lng\": 90.4125,\n  \"details\": \"Please bring tools for plumbing repair\",\n  \"pricingModel\": \"HOURLY\",\n  \"quotedPriceBDT\": 2000.0,\n  \"commissionPercent\": 15.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings"]
+            },
+            "description": "Create a new booking as a customer"
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings?status=PENDING&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "PENDING",
+                  "description": "Filter by booking status"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page"
+                }
+              ]
+            },
+            "description": "Get all bookings for the authenticated customer"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Booking by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}"]
+            },
+            "description": "Get specific booking details"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Customer requested cancellation\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "cancel"]
+            },
+            "description": "Cancel a booking (customer, professional, or admin can cancel)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Booking Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings/stats/overview",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "stats", "overview"]
+            },
+            "description": "Get booking statistics for the authenticated user"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Professional Bookings",
+      "item": [
+        {
+          "name": "Get My Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings?status=ACCEPTED&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "ACCEPTED",
+                  "description": "Filter by booking status"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page"
+                }
+              ]
+            },
+            "description": "Get all bookings for the authenticated professional"
+          },
+          "response": []
+        },
+        {
+          "name": "Accept Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"I'll be there on time\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/accept",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "accept"]
+            },
+            "description": "Accept a pending booking (Professional only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"I'm not available at that time\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/reject",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "reject"]
+            },
+            "description": "Reject a pending booking (Professional only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Check In",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Starting work now\",\n  \"lat\": 23.8103,\n  \"lng\": 90.4125\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/check-in",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "check-in"]
+            },
+            "description": "Check in to start work on a booking (Professional only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Check Out",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Work completed successfully\",\n  \"actualHours\": 2.5,\n  \"lat\": 23.8103,\n  \"lng\": 90.4125\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/check-out",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "check-out"]
+            },
+            "description": "Check out after completing work (Professional only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"All work completed as requested\",\n  \"actualHours\": 2.5,\n  \"finalAmountBDT\": 2500.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "complete"]
+            },
+            "description": "Complete a booking after check-out (Professional only)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Bookings",
+      "item": [
+        {
+          "name": "Get All Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Items per page"
+                }
+              ]
+            },
+            "description": "Get all bookings (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Booking Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings/stats/overview",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "stats", "overview"]
+            },
+            "description": "Get system-wide booking statistics (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Force Cancel Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Admin forced cancellation due to policy violation\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "cancel"]
+            },
+            "description": "Force cancel any booking (Admin only)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Booking Lifecycle Examples",
+      "item": [
+        {
+          "name": "1. Create Booking (Customer)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"professionalId\": \"professional-uuid-here\",\n  \"categoryId\": \"category-uuid-here\",\n  \"scheduledAt\": \"2024-02-01T10:00:00.000Z\",\n  \"addressText\": \"123 Main Street, Dhaka, Bangladesh\",\n  \"lat\": 23.8103,\n  \"lng\": 90.4125,\n  \"details\": \"Need plumbing repair for kitchen sink\",\n  \"pricingModel\": \"HOURLY\",\n  \"quotedPriceBDT\": 2000.0,\n  \"commissionPercent\": 15.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings"]
+            },
+            "description": "Step 1: Customer creates a booking (Status: PENDING)"
+          },
+          "response": []
+        },
+        {
+          "name": "2. Accept Booking (Professional)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"I'll be there on time with all necessary tools\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/accept",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "accept"]
+            },
+            "description": "Step 2: Professional accepts the booking (Status: ACCEPTED)"
+          },
+          "response": []
+        },
+        {
+          "name": "3. Check In (Professional)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Arrived at location, starting work\",\n  \"lat\": 23.8103,\n  \"lng\": 90.4125\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/check-in",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "check-in"]
+            },
+            "description": "Step 3: Professional checks in to start work (Status: IN_PROGRESS)"
+          },
+          "response": []
+        },
+        {
+          "name": "4. Check Out (Professional)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Work completed, kitchen sink is now functional\",\n  \"actualHours\": 2.5,\n  \"lat\": 23.8103,\n  \"lng\": 90.4125\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/check-out",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "check-out"]
+            },
+            "description": "Step 4: Professional checks out after completing work"
+          },
+          "response": []
+        },
+        {
+          "name": "5. Complete Booking (Professional)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{professionalToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"All plumbing work completed successfully. Customer is satisfied.\",\n  \"actualHours\": 2.5,\n  \"finalAmountBDT\": 5000.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "complete"]
+            },
+            "description": "Step 5: Professional completes the booking (Status: COMPLETED)"
+          },
+          "response": []
+        },
+        {
+          "name": "6. View Completed Booking (Customer)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customerToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}"]
+            },
+            "description": "Step 6: Customer views the completed booking with all events"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
