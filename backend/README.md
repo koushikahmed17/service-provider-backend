@@ -58,33 +58,6 @@ npx prisma migrate deploy
 npm run seed
 ```
 
-5. Run the app
-
-```bash
-npm run start:dev   # development with watch
-# or
-npm run start:prod  # after building
-```
-
-6. Testing
-
-```bash
-npm run test        # unit tests
-npm run test:e2e    # end-to-end tests
-```
-
-7. Postman collections
+5. Postman collections
 
 - Import collections from `postman/` to explore and test the APIs.
-
-### Common npm scripts
-
-- `start:dev`: Run in watch mode
-- `build`: TypeScript build to `dist/`
-- `start:prod`: Run compiled app
-- `lint`: Lint the codebase
-- `test`, `test:e2e`: Run tests
-
----
-
-For deployment notes and quick start on Render or Docker, adapt from the environment values in `env.render.template`, `render.yaml`, and `docker-compose.yml`.
